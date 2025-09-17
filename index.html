@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Colour Prediction - Demo | NextGenAdi4U</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="logo">NextGen<span>Adi4U</span></div>
+      <div id="activeUsers">👥 Active: <span id="activeCount">0</span></div>
+    </div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h1>🎨 Colour Prediction (Demo)</h1>
+      <p>Pick a colour and test your luck — demo wallet only.</p>
+    </section>
+
+    <section class="wallet-card">
+      <div>
+        <strong>Wallet:</strong> ₹ <span id="walletAmount">100</span>
+      </div>
+      <div class="wallet-actions">
+        <input type="number" id="addAmt" placeholder="Add amount (demo)" min="10">
+        <button id="addBtn">Add (Demo)</button>
+        <button id="resetBtn">Reset Wallet</button>
+      </div>
+    </section>
+
+    <section class="game-panel">
+      <h2>Choose a colour</h2>
+      <div class="color-buttons">
+        <button class="color-btn red" data-color="Red">Red</button>
+        <button class="color-btn green" data-color="Green">Green</button>
+        <button class="color-btn blue" data-color="Blue">Blue</button>
+      </div>
+
+      <div class="bet-controls">
+        <input type="number" id="betAmount" placeholder="Bet amount" min="1">
+        <button id="betBtn">Place Bet</button>
+      </div>
+
+      <div id="resultBox" class="result-box"></div>
+
+      <div class="history">
+        <h3>Last Results</h3>
+        <ul id="historyList"></ul>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 NextGenAdi4U • Demo only — No real money</p>
+    <p>
+      <a href="#" id="yt">YouTube</a> |
+      <a href="#" id="insta">Instagram</a>
+    </p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
