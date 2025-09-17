@@ -1,112 +1,184 @@
-// Basic demo logic — no real money, all localStorage
+/* Demo frontend logic — localStorage only. No real money. */
 
-// util
-const getEl = id => document.getElementById(id);
+// Elements
+const walletEl = document.getElementById('walletAmount');
+const activeEl = document.getElementById('activeCount');
+const tickerEl = document.getElementById('lastTicker');
+const timerEl = document.getElementById('timer');
+const resultBox = document.getElementById('resultBox');
+const miniHistory = document.getElementById('miniHistory');
+const historyTable = document.getElementById('historyTable');
+const winnersList = document.getElementById('winnersList');
 
-// init wallet (localStorage)
+const optionCards = document.querySelectorAll('.option-card');
+
+let selected = null;
+let autoSpin = false;
+let roundSeconds = 20; // each round length
+let countdown = roundSeconds;
+let roundInterval = null;
+
+// Init wallet
 function initWallet(){
   let w = localStorage.getItem('demo_wallet');
-  if(!w){
-    localStorage.setItem('demo_wallet', JSON.stringify(100));
-    return 100;
-  }
+  if(!w){ localStorage.setItem('demo_wallet', JSON.stringify(500)); return 500; }
   return Number(JSON.parse(localStorage.getItem('demo_wallet')));
 }
-
 function setWallet(val){
   localStorage.setItem('demo_wallet', JSON.stringify(val));
-  getEl('walletAmount').innerText = val;
+  walletEl.innerText = val;
 }
 
-// update active users (random)
-function updateActiveUsers(){
-  const n = Math.floor(Math.random()*220) + 10;
-  getEl('activeCount').innerText = n;
+// Active users random
+function updateActive(){
+  const n = Math.floor(Math.random()*700) + 30;
+  activeEl.innerText = n;
 }
-setInterval(updateActiveUsers, 3500);
-updateActiveUsers();
+setInterval(updateActive, 4000);
+updateActive();
 
-// history store
-function pushHistory(item){
-  let arr = JSON.parse(localStorage.getItem('demo_history')||'[]');
-  arr.unshift(item);
-  if(arr.length>50) arr.pop();
-  localStorage.setItem('demo_history', JSON.stringify(arr));
-  renderHistory();
-}
-
-function renderHistory(){
-  const ul = getEl('historyList');
-  ul.innerHTML='';
-  let arr = JSON.parse(localStorage.getItem('demo_history')||'[]');
-  arr.forEach(it=>{
-    const li = document.createElement('li');
-    li.innerHTML = `<span>${it.time}</span><strong>${it.choice}</strong><span>${it.result}</span>`;
-    ul.appendChild(li);
-  });
-}
-
-// game logic
-const colors = ['Red','Green','Blue'];
-let selectedColor = null;
-
-document.querySelectorAll('.color-btn').forEach(btn=>{
-  btn.addEventListener('click', (e)=>{
-    document.querySelectorAll('.color-btn').forEach(b=>b.style.transform='none');
-    btn.style.transform='scale(1.05)';
-    selectedColor = btn.dataset.color;
+// Click option select
+optionCards.forEach(card=>{
+  card.addEventListener('click', ()=>{
+    optionCards.forEach(c=>c.style.outline='none');
+    card.style.outline='3px solid rgba(255,255,255,0.06)';
+    selected = card.getAttribute('data-color');
   });
 });
 
-getEl('betBtn').addEventListener('click', ()=>{
-  const bet = Number(getEl('betAmount').value);
-  if(!selectedColor){ alert('Please select a colour first'); return; }
-  if(!bet || bet<=0){ alert('Enter valid bet amount'); return; }
-  let wallet = initWallet();
-  if(bet > wallet){ alert('Not enough demo wallet balance'); return; }
+// round countdown
+function startRoundTimer(){
+  clearInterval(roundInterval);
+  countdown = roundSeconds;
+  timerEl.innerText = `00:${countdown.toString().padStart(2,'0')}`;
 
-  // generate random result
-  const outcome = colors[Math.floor(Math.random()*colors.length)];
-  const win = (outcome === selectedColor);
+  roundInterval = setInterval(()=>{
+    countdown--;
+    timerEl.innerText = `00:${countdown.toString().padStart(2,'0')}`;
+    if(countdown<=0){
+      clearInterval(roundInterval);
+      runRound();
+      setTimeout(startRoundTimer, 1500);
+    }
+  }, 1000);
+}
 
-  if(win){
-    // simple payout: 2x
-    const winAmt = bet * 2;
-    wallet += winAmt;
+// run round logic
+function runRound(betPlaced){
+  // generate outcome
+  const colors = ['Red','Green','Blue'];
+  const outcome = colors[Math.floor(Math.random() * colors.length)];
+
+  // show in ticker & mini history
+  tickerEl.innerText = outcome;
+  addMiniHistory(outcome);
+
+  // evaluate bet if placed
+  const betData = JSON.parse(localStorage.getItem('current_bet') || 'null');
+  if(betData){
+    let wallet = initWallet();
+    if(betData.choice === outcome){
+      const win = betData.amount * 2;
+      wallet += win;
+      resultBox.innerHTML = `🎉 WIN! Outcome: ${outcome} — +₹${win}`;
+      resultBox.style.color = 'lightgreen';
+      addHistory(betData.choice, `WIN +₹${win}`);
+      addWinner(`You`, `+₹${win}`); // demo puts 'You' as winner
+    } else {
+      wallet -= betData.amount;
+      resultBox.innerHTML = `😢 LOST. Outcome: ${outcome} — -₹${betData.amount}`;
+      resultBox.style.color = 'salmon';
+      addHistory(betData.choice, `LOSE -₹${betData.amount}`);
+    }
     setWallet(wallet);
-    getEl('resultBox').innerHTML = `🎉 You WON! Outcome: ${outcome} — +₹${winAmt}`;
-    getEl('resultBox').style.color = 'lightgreen';
-    pushHistory({time:new Date().toLocaleString(), choice:selectedColor, result:`WIN +₹${winAmt}`});
+    localStorage.removeItem('current_bet');
   } else {
-    wallet -= bet;
-    setWallet(wallet);
-    getEl('resultBox').innerHTML = `😢 You LOST. Outcome: ${outcome} — -₹${bet}`;
-    getEl('resultBox').style.color = 'salmon';
-    pushHistory({time:new Date().toLocaleString(), choice:selectedColor, result:`LOSE -₹${bet}`});
+    resultBox.innerHTML = `Round Result: ${outcome}`;
+    resultBox.style.color = '#fff';
   }
+}
+
+// add mini history chip
+function addMiniHistory(outcome){
+  const chip = document.createElement('div'); chip.className='chip'; chip.innerText = outcome;
+  miniHistory.prepend(chip);
+  if(miniHistory.children.length>10) miniHistory.removeChild(miniHistory.lastChild);
+}
+
+// history table
+function addHistory(choice, result){
+  const time = new Date().toLocaleString();
+  const tr = document.createElement('tr');
+  tr.innerHTML = `<td>${time}</td><td>${choice}</td><td>${result}</td>`;
+  historyTable.prepend(tr);
+
+  // persist small history
+  let arr = JSON.parse(localStorage.getItem('demo_history')||'[]');
+  arr.unshift({time,choice,result});
+  if(arr.length>200) arr.pop();
+  localStorage.setItem('demo_history', JSON.stringify(arr));
+}
+
+// render saved history
+function renderSavedHistory(){
+  const arr = JSON.parse(localStorage.getItem('demo_history')||'[]');
+  historyTable.innerHTML='';
+  arr.forEach(it=>{
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${it.time}</td><td>${it.choice}</td><td>${it.result}</td>`;
+    historyTable.appendChild(tr);
+  });
+}
+renderSavedHistory();
+
+// winners
+function addWinner(name, amt){
+  const li = document.createElement('li');
+  li.innerHTML = `<span>${name}</span><strong style="color:lightgreen">${amt}</strong>`;
+  winnersList.prepend(li);
+  if(winnersList.children.length>8) winnersList.removeChild(winnersList.lastChild);
+}
+
+// Place Bet button
+document.getElementById('placeBetBtn').addEventListener('click', ()=>{
+  const betAmt = Number(document.getElementById('betInput').value);
+  if(!selected){ alert('Select a colour first'); return; }
+  if(!betAmt || betAmt<=0){ alert('Enter valid bet amount'); return; }
+  let wallet = initWallet();
+  if(betAmt > wallet){ alert('Not enough demo wallet'); return; }
+
+  // store current bet to be resolved when round ends
+  localStorage.setItem('current_bet', JSON.stringify({choice:selected, amount:betAmt}));
+  resultBox.innerHTML = `Bet Placed: ${selected} — ₹${betAmt} (will settle next round)`;
+  resultBox.style.color = '#ffd';
 });
 
-// wallet add/reset
-getEl('addBtn').addEventListener('click', ()=>{
-  const a = Number(getEl('addAmt').value);
-  if(!a || a<=0){ alert('Enter amount to add (demo)'); return; }
-  let w = initWallet();
-  w += a;
+// top-up and reset
+document.getElementById('topupBtn').addEventListener('click', ()=>{
+  const a = Number(document.getElementById('quickTopup').value);
+  if(!a || a<1){ alert('Enter amount'); return; }
+  const w = initWallet() + a;
   setWallet(w);
-  getEl('addAmt').value='';
+  document.getElementById('quickTopup').value='';
 });
-
-getEl('resetBtn').addEventListener('click', ()=>{
+document.getElementById('clearBtn').addEventListener('click', ()=>{
   if(confirm('Reset demo wallet & history?')){
     localStorage.removeItem('demo_wallet');
     localStorage.removeItem('demo_history');
+    localStorage.removeItem('current_bet');
     setWallet(initWallet());
-    renderHistory();
-    getEl('resultBox').innerText='';
+    renderSavedHistory();
+    resultBox.innerText='Reset done';
   }
 });
 
 // init UI
 setWallet(initWallet());
-renderHistory();
+startRoundTimer();
 
+// load any saved history into winners (demo)
+(function loadDemoWinners(){
+  addWinner('PlayerX', '+₹1200');
+  addWinner('PlayerY', '+₹560');
+  addWinner('PlayerZ', '+₹320');
+})();
