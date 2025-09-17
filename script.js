@@ -182,3 +182,46 @@ startRoundTimer();
   addWinner('PlayerY', '+₹560');
   addWinner('PlayerZ', '+₹320');
 })();
+let timer = 30;
+let countdown;
+
+function startTimer() {
+  timer = 30;
+  document.getElementById("timer").innerText = `Time Left: ${timer}s`;
+  countdown = setInterval(() => {
+    timer--;
+    document.getElementById("timer").innerText = `Time Left: ${timer}s`;
+
+    if (timer <= 0) {
+      clearInterval(countdown);
+      showResult();
+      setTimeout(startTimer, 3000); // 3 सेकंदानंतर नवा राउंड सुरू
+    }
+  }, 1000);
+}
+
+function showResult() {
+  let number = Math.floor(Math.random() * 10); // 0 ते 9 random
+  let color;
+
+  if (number % 2 === 0) {
+    color = "Green";
+  } else {
+    color = "Red";
+  }
+
+  document.getElementById("result-number").innerText = number;
+  document.getElementById("result-color").innerText = color;
+
+  let historyItem = document.createElement("li");
+  historyItem.innerText = `${number} - ${color}`;
+  document.getElementById("history-list").prepend(historyItem);
+}
+
+function predict(choice) {
+  alert("तू निवडलंय: " + choice);
+}
+
+// सुरुवात
+startTimer();
+
