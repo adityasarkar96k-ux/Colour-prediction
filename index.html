@@ -1,71 +1,92 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Colour Prediction - Demo | NextGenAdi4U</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <header>
-    <div class="brand">
-      <div class="logo">NextGen<span>Adi4U</span></div>
-      <div id="activeUsers">👥 Active: <span id="activeCount">0</span></div>
-    </div>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="contact.html">Contact</a>
-    </nav>
-  </header>
+/* --------------------------
+   PRO Casino-like UI (Demo)
+   -------------------------- */
+:root{
+  --bg:#07070a;
+  --panel:#0f1116;
+  --muted:#9aa0b2;
+  --accent:#ff3b3b; /* red */
+  --accent-2:#35d07f; /* green */
+  --accent-3:#3b8bff; /* blue */
+  --glass: rgba(255,255,255,0.03);
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:Inter, "Segoe UI", Roboto, system-ui, sans-serif;
+  background: linear-gradient(180deg, #050506, #0a0a10);
+  color:var(--muted);
+  -webkit-font-smoothing:antialiased;
+}
 
-  <main class="container">
-    <section class="hero">
-      <h1>🎨 Colour Prediction (Demo)</h1>
-      <p>Pick a colour and test your luck — demo wallet only.</p>
-    </section>
+/* Container */
+.container{max-width:1200px;margin:18px auto;padding:0 16px;display:grid;grid-template-columns:1fr;gap:18px;}
 
-    <section class="wallet-card">
-      <div>
-        <strong>Wallet:</strong> ₹ <span id="walletAmount">100</span>
-      </div>
-      <div class="wallet-actions">
-        <input type="number" id="addAmt" placeholder="Add amount (demo)" min="10">
-        <button id="addBtn">Add (Demo)</button>
-        <button id="resetBtn">Reset Wallet</button>
-      </div>
-    </section>
+/* Header */
+.site-header{
+  display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-radius:8px;background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(0,0,0,0.2));
+  border:1px solid rgba(255,255,255,0.03);
+  box-shadow:0 6px 30px rgba(0,0,0,0.6);
+}
+.site-header .left{display:flex;flex-direction:column}
+.logo{font-weight:800;font-size:20px;color:var(--muted)}
+.logo-red{color:var(--accent);font-weight:900}
+.logo-white{color:#fff;margin-left:6px}
+.tag{font-size:12px;color:rgba(255,255,255,0.6)}
+.center{flex:1;text-align:center}
+.ticker{font-weight:700}
+.right{display:flex;gap:12px;align-items:center}
+.badge{background:var(--glass);padding:8px 12px;border-radius:20px;font-weight:700;color:#fff}
+.balance{font-weight:800;color:#fff;background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:8px 12px;border-radius:10px}
 
-    <section class="game-panel">
-      <h2>Choose a colour</h2>
-      <div class="color-buttons">
-        <button class="color-btn red" data-color="Red">Red</button>
-        <button class="color-btn green" data-color="Green">Green</button>
-        <button class="color-btn blue" data-color="Blue">Blue</button>
-      </div>
+/* Main grid */
+.main-grid{display:grid;grid-template-columns: 2fr 360px;gap:18px;margin-top:10px}
+.card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.2));padding:16px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
+.game-area{display:flex;flex-direction:column;gap:12px}
 
-      <div class="bet-controls">
-        <input type="number" id="betAmount" placeholder="Bet amount" min="1">
-        <button id="betBtn">Place Bet</button>
-      </div>
+/* game top */
+.game-top{display:flex;justify-content:space-between;align-items:center}
+.round-timer{background:rgba(255,255,255,0.02);padding:8px 12px;border-radius:12px;font-weight:700;color:#fff}
 
-      <div id="resultBox" class="result-box"></div>
+/* options */
+.options-grid{display:flex;gap:12px;justify-content:center;align-items:stretch}
+.option-card{flex:1;padding:12px;border-radius:12px;display:flex;flex-direction:column;align-items:center;gap:10px;cursor:pointer;border:1px solid rgba(255,255,255,0.03);transition:transform .18s, box-shadow .18s}
+.option-card:hover{transform:translateY(-6px);box-shadow:0 12px 30px rgba(0,0,0,0.6)}
+.opt-label{font-weight:900;color:#fff;font-size:18px}
+.opt-odds{font-size:13px;color:var(--muted)}
+.opt-swatch{width:100%;height:80px;border-radius:8px;box-shadow:inset 0 -6px 40px rgba(0,0,0,0.6)}
+.red-swatch{background:linear-gradient(180deg,var(--accent),#b32424)}
+.green-swatch{background:linear-gradient(180deg,var(--accent-2),#0ea765)}
+.blue-swatch{background:linear-gradient(180deg,var(--accent-3),#1f64f5)}
 
-      <div class="history">
-        <h3>Last Results</h3>
-        <ul id="historyList"></ul>
-      </div>
-    </section>
-  </main>
+/* bet panel */
+.bet-panel{display:flex;gap:8px;justify-content:center;margin-top:6px}
+.bet-panel input{padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--muted);width:220px}
+.btn-primary{background:linear-gradient(90deg,var(--accent),#e02f2f);color:#fff;border:0;padding:12px 18px;border-radius:10px;font-weight:800;cursor:pointer}
+.btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted);padding:12px 14px;border-radius:10px;cursor:pointer}
 
-  <footer>
-    <p>© 2025 NextGenAdi4U • Demo only — No real money</p>
-    <p>
-      <a href="#" id="yt">YouTube</a> |
-      <a href="#" id="insta">Instagram</a>
-    </p>
-  </footer>
+/* result box */
+.result-box{min-height:52px;border-radius:10px;padding:10px;font-weight:800;text-align:center;color:#fff;background:rgba(0,0,0,0.3)}
 
-  <script src="script.js"></script>
-</body>
-</html>
+/* mini history */
+.mini-history{display:flex;gap:8px;flex-wrap:wrap}
+.mini-history .chip{padding:6px 10px;border-radius:8px;background:rgba(255,255,255,0.02);font-weight:700;color:#fff}
+
+/* sidebar */
+.sidebar{display:flex;flex-direction:column;gap:12px}
+.winners-list{list-style:none;padding:0;margin:0}
+.winners-list li{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed rgba(255,255,255,0.03)}
+.history-table table{width:100%;border-collapse:collapse;color:var(--muted);font-size:13px}
+.history-table th, .history-table td{padding:8px;border-bottom:1px solid rgba(255,255,255,0.02)}
+
+/* footer */
+.site-footer{text-align:center;padding:16px;color:rgba(255,255,255,0.5);margin-top:18px;border-top:1px solid rgba(255,255,255,0.03)}
+
+/* Responsive */
+@media(max-width:1000px){
+  .main-grid{grid-template-columns:1fr}
+  .center{display:none}
+  nav{display:none}
+  .options-grid{flex-direction:column}
+}
