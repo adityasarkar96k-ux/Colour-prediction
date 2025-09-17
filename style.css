@@ -90,3 +90,48 @@ body{
   nav{display:none}
   .options-grid{flex-direction:column}
 }
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
+
+#timer {
+  font-size: 22px;
+  margin: 15px 0;
+  font-weight: bold;
+}
+
+.options button {
+  font-size: 18px;
+  padding: 12px 20px;
+  margin: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.options button:hover {
+  opacity: 0.8;
+}
+
+#result-box {
+  margin-top: 20px;
+  padding: 15px;
+  border: 2px solid #fff;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+#history {
+  margin-top: 20px;
+  text-align: left;
+  display: inline-block;
+}
+
+#history ul {
+  list-style: none;
+  padding: 0;
+}
