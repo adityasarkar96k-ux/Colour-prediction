@@ -8,6 +8,34 @@
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;600;800&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
 </head>
+  <main>
+  <h2>Color Prediction Game</h2>
+
+  <!-- Timer -->
+  <div id="timer">Time Left: 30s</div>
+
+  <!-- Options -->
+  <div class="options">
+    <button onclick="predict('red')">🔴 Red</button>
+    <button onclick="predict('green')">🟢 Green</button>
+  </div>
+
+  <!-- Result -->
+  <div id="result-box">
+    <h3>Result:</h3>
+    <p id="result-number">--</p>
+    <p id="result-color">--</p>
+  </div>
+
+  <!-- History -->
+  <div id="history">
+    <h3>History</h3>
+    <ul id="history-list"></ul>
+  </div>
+</main>
+
+<script src="script.js"></script>
+
 <body>
   <header class="site-header">
     <div class="left">
