@@ -1,130 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Colour Prediction • NextGenAdi4U (Demo)</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Color Prediction | Wingo 30s</title>
   <link rel="stylesheet" href="style.css">
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;600;800&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
 </head>
-  <main>
-  <h2>Color Prediction Game</h2>
-
-  <!-- Timer -->
-  <div id="timer">Time Left: 30s</div>
-
-  <!-- Options -->
-  <div class="options">
-    <button onclick="predict('red')">🔴 Red</button>
-    <button onclick="predict('green')">🟢 Green</button>
-  </div>
-
-  <!-- Result -->
-  <div id="result-box">
-    <h3>Result:</h3>
-    <p id="result-number">--</p>
-    <p id="result-color">--</p>
-  </div>
-
-  <!-- History -->
-  <div id="history">
-    <h3>History</h3>
-    <ul id="history-list"></ul>
-  </div>
-</main>
-
-<script src="script.js"></script>
-
 <body>
-  <header class="site-header">
-    <div class="left">
-      <div class="logo"><span class="logo-red">NextGen</span><span class="logo-white">Adi4U</span></div>
-      <div class="tag">Colour Prediction • Demo</div>
-    </div>
-
-    <div class="center">
-      <div class="ticker" id="resultTicker">Latest Result: <span id="lastTicker">—</span></div>
-    </div>
-
-    <div class="right">
-      <div id="activeUsers" class="badge">👥 Active: <span id="activeCount">0</span></div>
-      <div class="balance">Wallet: ₹ <span id="walletAmount">0</span></div>
-    </div>
+  <header>
+    <h1>🎲 30s Wingo Color Prediction</h1>
   </header>
 
-  <main class="main-grid container">
-    <!-- Left: Game Area -->
-    <section class="game-area card">
-      <div class="game-top">
-        <h2>Place Your Bet</h2>
-        <div class="round-timer">Next Round in <span id="timer">00:20</span></div>
-      </div>
+  <main>
+    <!-- Period -->
+    <div class="period-box">
+      <span>Period:</span> <span id="period">100001</span>
+    </div>
 
-      <div class="options-grid">
-        <div class="option-card" data-color="Red">
-          <div class="opt-label">RED</div>
-          <div class="opt-odds">Payout <strong>2x</strong></div>
-          <div class="opt-swatch red-swatch"></div>
-        </div>
+    <!-- Timer -->
+    <div class="timer">
+      ⏱ Time Left: <span id="timer">30</span>s
+    </div>
 
-        <div class="option-card" data-color="Green">
-          <div class="opt-label">GREEN</div>
-          <div class="opt-odds">Payout <strong>2x</strong></div>
-          <div class="opt-swatch green-swatch"></div>
-        </div>
+    <!-- Buttons -->
+    <div class="options">
+      <button onclick="predict('Red')" class="red">Red</button>
+      <button onclick="predict('Green')" class="green">Green</button>
+      <button onclick="predict('Violet')" class="violet">Violet</button>
+    </div>
 
-        <div class="option-card" data-color="Blue">
-          <div class="opt-label">BLUE</div>
-          <div class="opt-odds">Payout <strong>2x</strong></div>
-          <div class="opt-swatch blue-swatch"></div>
-        </div>
-      </div>
+    <!-- Result -->
+    <div class="result-box">
+      <h3>Result</h3>
+      <p id="result-number">--</p>
+      <p id="result-color">--</p>
+    </div>
 
-      <div class="bet-panel">
-        <input id="betInput" type="number" placeholder="Enter bet amount" min="1">
-        <button id="placeBetBtn" class="btn-primary">Place Bet</button>
-        <button id="autoSpinBtn" class="btn-ghost">Auto Spin</button>
-      </div>
-
-      <div id="resultBox" class="result-box">Round result will show here</div>
-
-      <div class="history-compact">
-        <h3>Recent Rounds</h3>
-        <div id="miniHistory" class="mini-history"></div>
-      </div>
-    </section>
-
-    <!-- Right: Sidebar -->
-    <aside class="sidebar">
-      <div class="card">
-        <h3>Top Winners</h3>
-        <ul id="winnersList" class="winners-list"></ul>
-      </div>
-
-      <div class="card">
-        <h3>Bet History</h3>
-        <div class="history-table">
-          <table>
-            <thead><tr><th>Time</th><th>Choice</th><th>Result</th></tr></thead>
-            <tbody id="historyTable"></tbody>
-          </table>
-        </div>
-      </div>
-
-      <div class="card quick-actions">
-        <h3>Quick Wallet</h3>
-        <input type="number" id="quickTopup" placeholder="Amount" min="10">
-        <button id="topupBtn" class="btn-primary">Topup (Demo)</button>
-        <button id="clearBtn" class="btn-ghost">Reset</button>
-      </div>
-    </aside>
+    <!-- History -->
+    <div class="history">
+      <h3>History</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Period</th>
+            <th>Number</th>
+            <th>Color</th>
+          </tr>
+        </thead>
+        <tbody id="history-body">
+        </tbody>
+      </table>
+    </div>
   </main>
-
-  <footer class="site-footer">
-    <div>© 2025 NextGenAdi4U — Demo only (no real money)</div>
-    <div>Made with ❤️ • UI Demo</div>
-  </footer>
 
   <script src="script.js"></script>
 </body>
