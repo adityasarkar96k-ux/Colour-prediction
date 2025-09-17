@@ -1,80 +1,92 @@
-/* Simple modern responsive theme (dark + accent) */
+/* --------------------------
+   PRO Casino-like UI (Demo)
+   -------------------------- */
 :root{
-  --bg1:#0b0b12;
-  --bg2:#141427;
-  --card:#151522;
-  --accent:#ff3b3b; /* red accent */
-  --muted:#bfc4d6;
+  --bg:#07070a;
+  --panel:#0f1116;
+  --muted:#9aa0b2;
+  --accent:#ff3b3b; /* red */
+  --accent-2:#35d07f; /* green */
+  --accent-3:#3b8bff; /* blue */
+  --glass: rgba(255,255,255,0.03);
 }
 *{box-sizing:border-box}
+html,body{height:100%}
 body{
   margin:0;
-  font-family:Inter, Poppins, system-ui, sans-serif;
-  background: linear-gradient(180deg,var(--bg1),var(--bg2));
+  font-family:Inter, "Segoe UI", Roboto, system-ui, sans-serif;
+  background: linear-gradient(180deg, #050506, #0a0a10);
   color:var(--muted);
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
+  -webkit-font-smoothing:antialiased;
 }
-header{
-  padding:14px 20px;
-  border-bottom:1px solid rgba(255,255,255,0.03);
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  background:linear-gradient(90deg, rgba(0,0,0,0.4), rgba(255,255,255,0.02));
+
+/* Container */
+.container{max-width:1200px;margin:18px auto;padding:0 16px;display:grid;grid-template-columns:1fr;gap:18px;}
+
+/* Header */
+.site-header{
+  display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-radius:8px;background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(0,0,0,0.2));
+  border:1px solid rgba(255,255,255,0.03);
+  box-shadow:0 6px 30px rgba(0,0,0,0.6);
 }
-.brand{display:flex;gap:16px;align-items:center}
-.logo{font-weight:800;color:var(--accent);font-size:20px}
-.logo span{color:#fff}
-#activeUsers{background:rgba(255,255,255,0.03);padding:6px 10px;border-radius:20px;color:var(--muted);font-size:13px}
+.site-header .left{display:flex;flex-direction:column}
+.logo{font-weight:800;font-size:20px;color:var(--muted)}
+.logo-red{color:var(--accent);font-weight:900}
+.logo-white{color:#fff;margin-left:6px}
+.tag{font-size:12px;color:rgba(255,255,255,0.6)}
+.center{flex:1;text-align:center}
+.ticker{font-weight:700}
+.right{display:flex;gap:12px;align-items:center}
+.badge{background:var(--glass);padding:8px 12px;border-radius:20px;font-weight:700;color:#fff}
+.balance{font-weight:800;color:#fff;background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:8px 12px;border-radius:10px}
 
-nav a{color:rgba(255,255,255,0.7);margin-left:14px;text-decoration:none;font-weight:600}
-nav a:hover{color:#fff}
+/* Main grid */
+.main-grid{display:grid;grid-template-columns: 2fr 360px;gap:18px;margin-top:10px}
+.card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.2));padding:16px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
+.game-area{display:flex;flex-direction:column;gap:12px}
 
-/* Main container */
-.container{width:100%;max-width:1100px;margin:28px auto;padding:0 16px;flex:1}
+/* game top */
+.game-top{display:flex;justify-content:space-between;align-items:center}
+.round-timer{background:rgba(255,255,255,0.02);padding:8px 12px;border-radius:12px;font-weight:700;color:#fff}
 
-/* hero */
-.hero{text-align:center;margin-bottom:18px}
-.hero h1{color:var(--accent);margin:6px 0}
-.hero p{color:rgba(255,255,255,0.7)}
+/* options */
+.options-grid{display:flex;gap:12px;justify-content:center;align-items:stretch}
+.option-card{flex:1;padding:12px;border-radius:12px;display:flex;flex-direction:column;align-items:center;gap:10px;cursor:pointer;border:1px solid rgba(255,255,255,0.03);transition:transform .18s, box-shadow .18s}
+.option-card:hover{transform:translateY(-6px);box-shadow:0 12px 30px rgba(0,0,0,0.6)}
+.opt-label{font-weight:900;color:#fff;font-size:18px}
+.opt-odds{font-size:13px;color:var(--muted)}
+.opt-swatch{width:100%;height:80px;border-radius:8px;box-shadow:inset 0 -6px 40px rgba(0,0,0,0.6)}
+.red-swatch{background:linear-gradient(180deg,var(--accent),#b32424)}
+.green-swatch{background:linear-gradient(180deg,var(--accent-2),#0ea765)}
+.blue-swatch{background:linear-gradient(180deg,var(--accent-3),#1f64f5)}
 
-/* wallet */
-.wallet-card{background:var(--card);padding:12px;border-radius:12px;display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;border:1px solid rgba(255,255,255,0.03)}
-.wallet-actions{display:flex;gap:8px;align-items:center}
-.wallet-actions input{padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:var(--muted);width:140px}
-.wallet-actions button{padding:8px 12px;border-radius:8px;border:0;background:var(--accent);color:#fff;cursor:pointer;font-weight:700}
-.wallet-actions button:hover{opacity:0.9}
+/* bet panel */
+.bet-panel{display:flex;gap:8px;justify-content:center;margin-top:6px}
+.bet-panel input{padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--muted);width:220px}
+.btn-primary{background:linear-gradient(90deg,var(--accent),#e02f2f);color:#fff;border:0;padding:12px 18px;border-radius:10px;font-weight:800;cursor:pointer}
+.btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted);padding:12px 14px;border-radius:10px;cursor:pointer}
 
-/* game panel */
-.game-panel{margin-top:6px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:20px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
-.color-buttons{display:flex;gap:12px;justify-content:center;margin:12px 0;flex-wrap:wrap}
-.color-btn{padding:16px 28px;border-radius:12px;border:0;cursor:pointer;font-weight:800;color:#fff;box-shadow:0 6px 18px rgba(0,0,0,0.5)}
-.color-btn.red{background:#ff4c4c}
-.color-btn.green{background:#29c07b}
-.color-btn.blue{background:#4c90ff}
-.color-btn:active{transform:translateY(2px)}
+/* result box */
+.result-box{min-height:52px;border-radius:10px;padding:10px;font-weight:800;text-align:center;color:#fff;background:rgba(0,0,0,0.3)}
 
-.bet-controls{display:flex;gap:8px;justify-content:center;margin-bottom:12px}
-.bet-controls input{padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:var(--muted);width:160px}
-.bet-controls button{background:#222;padding:10px 16px;border-radius:10px;border:1px solid rgba(255,255,255,0.05);color:var(--muted);cursor:pointer}
-.bet-controls button:hover{color:#fff}
+/* mini history */
+.mini-history{display:flex;gap:8px;flex-wrap:wrap}
+.mini-history .chip{padding:6px 10px;border-radius:8px;background:rgba(255,255,255,0.02);font-weight:700;color:#fff}
 
-.result-box{text-align:center;padding:12px;margin-top:8px;font-weight:700;font-size:16px}
-
-/* history */
-.history{margin-top:16px}
-.history ul{list-style:none;padding:0;max-height:220px;overflow:auto}
-.history li{padding:8px;border-bottom:1px dashed rgba(255,255,255,0.03);display:flex;justify-content:space-between;align-items:center}
+/* sidebar */
+.sidebar{display:flex;flex-direction:column;gap:12px}
+.winners-list{list-style:none;padding:0;margin:0}
+.winners-list li{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed rgba(255,255,255,0.03)}
+.history-table table{width:100%;border-collapse:collapse;color:var(--muted);font-size:13px}
+.history-table th, .history-table td{padding:8px;border-bottom:1px solid rgba(255,255,255,0.02)}
 
 /* footer */
-footer{padding:18px;text-align:center;border-top:1px solid rgba(255,255,255,0.03);color:rgba(255,255,255,0.6);font-size:13px}
+.site-footer{text-align:center;padding:16px;color:rgba(255,255,255,0.5);margin-top:18px;border-top:1px solid rgba(255,255,255,0.03)}
 
 /* Responsive */
-@media(max-width:700px){
-  .brand{flex-direction:column;align-items:flex-start}
+@media(max-width:1000px){
+  .main-grid{grid-template-columns:1fr}
+  .center{display:none}
   nav{display:none}
-  .wallet-card{flex-direction:column;gap:10px}
-  .bet-controls{flex-direction:column}
+  .options-grid{flex-direction:column}
 }
