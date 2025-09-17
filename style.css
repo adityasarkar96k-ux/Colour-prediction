@@ -1,0 +1,80 @@
+/* Simple modern responsive theme (dark + accent) */
+:root{
+  --bg1:#0b0b12;
+  --bg2:#141427;
+  --card:#151522;
+  --accent:#ff3b3b; /* red accent */
+  --muted:#bfc4d6;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Inter, Poppins, system-ui, sans-serif;
+  background: linear-gradient(180deg,var(--bg1),var(--bg2));
+  color:var(--muted);
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+}
+header{
+  padding:14px 20px;
+  border-bottom:1px solid rgba(255,255,255,0.03);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:linear-gradient(90deg, rgba(0,0,0,0.4), rgba(255,255,255,0.02));
+}
+.brand{display:flex;gap:16px;align-items:center}
+.logo{font-weight:800;color:var(--accent);font-size:20px}
+.logo span{color:#fff}
+#activeUsers{background:rgba(255,255,255,0.03);padding:6px 10px;border-radius:20px;color:var(--muted);font-size:13px}
+
+nav a{color:rgba(255,255,255,0.7);margin-left:14px;text-decoration:none;font-weight:600}
+nav a:hover{color:#fff}
+
+/* Main container */
+.container{width:100%;max-width:1100px;margin:28px auto;padding:0 16px;flex:1}
+
+/* hero */
+.hero{text-align:center;margin-bottom:18px}
+.hero h1{color:var(--accent);margin:6px 0}
+.hero p{color:rgba(255,255,255,0.7)}
+
+/* wallet */
+.wallet-card{background:var(--card);padding:12px;border-radius:12px;display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;border:1px solid rgba(255,255,255,0.03)}
+.wallet-actions{display:flex;gap:8px;align-items:center}
+.wallet-actions input{padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:var(--muted);width:140px}
+.wallet-actions button{padding:8px 12px;border-radius:8px;border:0;background:var(--accent);color:#fff;cursor:pointer;font-weight:700}
+.wallet-actions button:hover{opacity:0.9}
+
+/* game panel */
+.game-panel{margin-top:6px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:20px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
+.color-buttons{display:flex;gap:12px;justify-content:center;margin:12px 0;flex-wrap:wrap}
+.color-btn{padding:16px 28px;border-radius:12px;border:0;cursor:pointer;font-weight:800;color:#fff;box-shadow:0 6px 18px rgba(0,0,0,0.5)}
+.color-btn.red{background:#ff4c4c}
+.color-btn.green{background:#29c07b}
+.color-btn.blue{background:#4c90ff}
+.color-btn:active{transform:translateY(2px)}
+
+.bet-controls{display:flex;gap:8px;justify-content:center;margin-bottom:12px}
+.bet-controls input{padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:var(--muted);width:160px}
+.bet-controls button{background:#222;padding:10px 16px;border-radius:10px;border:1px solid rgba(255,255,255,0.05);color:var(--muted);cursor:pointer}
+.bet-controls button:hover{color:#fff}
+
+.result-box{text-align:center;padding:12px;margin-top:8px;font-weight:700;font-size:16px}
+
+/* history */
+.history{margin-top:16px}
+.history ul{list-style:none;padding:0;max-height:220px;overflow:auto}
+.history li{padding:8px;border-bottom:1px dashed rgba(255,255,255,0.03);display:flex;justify-content:space-between;align-items:center}
+
+/* footer */
+footer{padding:18px;text-align:center;border-top:1px solid rgba(255,255,255,0.03);color:rgba(255,255,255,0.6);font-size:13px}
+
+/* Responsive */
+@media(max-width:700px){
+  .brand{flex-direction:column;align-items:flex-start}
+  nav{display:none}
+  .wallet-card{flex-direction:column;gap:10px}
+  .bet-controls{flex-direction:column}
+}
